@@ -1,719 +1,1010 @@
+
 <!DOCTYPE html>
-
-<html lang="en" class="dark">
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 12 Humanities | Study Dashboard</title>
 
-  <meta charset="UTF-8" />
+<style>
+:root {
+    --bg: #f4f5fa;
+    --card: #ffffff;
+    --text: #20243a;
+    --muted: #777d91;
+    --primary: #6258d9;
+    --light: #eeecff;
+    --border: #e8e9f0;
+    --green: #21a67a;
+    --red: #e45e70;
+}
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-  <title>CBSE Class 12 Humanities — Study Command Center (2026–27)</title>
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
 
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+.container {
+    max-width: 1250px;
+    margin: auto;
+    padding: 25px;
+}
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
 
-  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+header h1 {
+    font-size: 25px;
+}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+header p {
+    color: var(--muted);
+    margin-top: 6px;
+    font-size: 13px;
+}
 
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+button {
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 9px;
+    font-weight: 600;
+    transition: 0.2s;
+}
 
-  <style>
+button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
 
-    :root {
+.primary-btn {
+    background: var(--primary);
+    color: white;
+}
 
-      color-scheme: dark;
+.secondary-btn {
+    background: var(--light);
+    color: var(--primary);
+}
 
+.danger-btn {
+    background: #fff0f1;
+    color: var(--red);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 3px 15px rgba(30,30,60,0.03);
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.stat-note {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.section {
+    margin-top: 22px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.section-heading h2 {
+    font-size: 19px;
+}
+
+.section-heading p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.day-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.day-navigation button {
+    background: var(--light);
+    color: var(--primary);
+}
+
+.day-navigation span {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.progress-track {
+    height: 9px;
+    background: #eeeeF5;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    border-radius: 20px;
+    transition: width 0.3s;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.task:last-child {
+    border-bottom: none;
+}
+
+.task input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-info strong {
+    font-size: 14px;
+}
+
+.task-info p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.completed strong {
+    text-decoration: line-through;
+    color: var(--muted);
+}
+
+select, input, textarea {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    background: white;
+    color: var(--text);
+    width: 100%;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.form-row > * {
+    flex: 1;
+    min-width: 120px;
+}
+
+.subject-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.subject-tabs button {
+    background: #f1f1f7;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.subject-tabs button.active {
+    background: var(--primary);
+    color: white;
+}
+
+.chapter-item, .weak-item, .mock-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.chapter-item:last-child,
+.weak-item:last-child,
+.mock-item:last-child {
+    border-bottom: none;
+}
+
+.chapter-item span,
+.weak-item span,
+.mock-item span {
+    flex: 1;
+    font-size: 13px;
+}
+
+.chapter-item select {
+    width: 125px;
+    font-size: 12px;
+}
+
+.small-btn {
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+.badge {
+    background: var(--light);
+    color: var(--primary);
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 20px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 10px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+@media(max-width: 850px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 500px) {
+    .container {
+        padding: 15px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .stat-value {
+        font-size: 23px;
+    }
+
+    header h1 {
+        font-size: 21px;
+    }
+}
+
+@media print {
     body {
-
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-
-      background-color: #080c14;
-
-      color: #e2e8f0;
-
+        background: white;
     }
 
-    .glass-card {
-
-      background: linear-gradient(180deg, rgba(17, 24, 39, 0.92) 0%, rgba(13, 19, 32, 0.96) 100%);
-
-      border: 1px solid rgba(51, 65, 85, 0.55);
-
-      box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.65);
-
-    }
-
-    .custom-scroll::-webkit-scrollbar {
-
-      width: 6px;
-
-      height: 6px;
-
-    }
-
-    .custom-scroll::-webkit-scrollbar-track {
-
-      background: rgba(15, 23, 42, 0.5);
-
-      border-radius: 9999px;
-
-    }
-
-    .custom-scroll::-webkit-scrollbar-thumb {
-
-      background: rgba(71, 85, 105, 0.7);
-
-      border-radius: 9999px;
-
-    }
-
-    .custom-scroll::-webkit-scrollbar-thumb:hover {
-
-      background: rgba(100, 116, 139, 0.9);
-
-    }
-
-    .ring-circle {
-
-      transition: stroke-dashoffset 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-
-      transform: rotate(-90deg);
-
-      transform-origin: 50% 50%;
-
-    }
-
-    /* Print A4 Timetable Styles */
-
-    .print-only {
-
-      display: none;
-
-    }
-
-    @media print {
-
-      @page {
-
-        size: A4 portrait;
-
-        margin: 12mm;
-
-      }
-
-      body {
-
-        background: #ffffff !important;
-
-        color: #111827 !important;
-
-        font-size: 10.5pt;
-
-      }
-
-      .no-print {
-
+    .header-actions, button, .subject-tabs,
+    .form-row, .day-navigation {
         display: none !important;
-
-      }
-
-      .print-only {
-
-        display: block !important;
-
-      }
-
-      .print-table {
-
-        width: 100%;
-
-        border-collapse: collapse;
-
-        margin-bottom: 14px;
-
-      }
-
-      .print-table th, .print-table td {
-
-        border: 1px solid #cbd5e1;
-
-        padding: 5px 8px;
-
-        text-align: left;
-
-        font-size: 9.5pt;
-
-      }
-
-      .print-table th {
-
-        background: #f1f5f9 !important;
-
-        font-weight: 700;
-
-        -webkit-print-color-adjust: exact;
-
-        print-color-adjust: exact;
-
-      }
-
-      .print-section-title {
-
-        font-size: 12pt;
-
-        font-weight: 700;
-
-        margin: 12px 0 6px 0;
-
-        border-bottom: 2px solid #1e293b;
-
-        padding-bottom: 3px;
-
-        color: #0f172a;
-
-      }
-
-      .page-break {
-
-        page-break-before: always;
-
-      }
-
     }
 
-  </style>
-
+    .card {
+        box-shadow: none;
+        break-inside: avoid;
+    }
+}
+</style>
 </head>
 
-<body class="min-h-screen antialiased selection:bg-sky-500/30 selection:text-sky-200">
+<body>
+<div class="container">
 
+<header>
+    <div>
+        <h1>📚 Humanities Study Dashboard</h1>
+        <p>Class XII · Academic Session 2026–27</p>
+    </div>
 
-  <!-- MAIN INTERACTIVE DASHBOARD -->
+    <div class="header-actions">
+        <button class="secondary-btn" onclick="window.print()">🖨 Print</button>
+        <button class="danger-btn" onclick="resetDashboard()">Reset Data</button>
+    </div>
+</header>
 
-  <div class="no-print max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 space-y-6">
+<!-- STATISTICS -->
+<div class="grid">
+    <div class="card">
+        <div class="stat-label">Chapters Completed</div>
+        <div class="stat-value" id="completed-stat">0</div>
+        <div class="stat-note">Across all subjects</div>
+    </div>
 
-
-    <!-- HEADER -->
-
-    <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-slate-800/80">
-
-      <div class="flex items-center gap-3.5">
-
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500/20 to-violet-500/20 border border-sky-500/30 flex items-center justify-center shrink-0">
-
-          <i data-lucide="graduation-cap" class="w-6 h-6 text-sky-400"></i>
-
+    <div class="card">
+        <div class="stat-label">Overall Progress</div>
+        <div class="stat-value" id="progress-stat">0%</div>
+        <div class="progress-track">
+            <div class="progress-fill" id="overall-progress"></div>
         </div>
+    </div>
 
+    <div class="card">
+        <div class="stat-label">Study Tasks Completed</div>
+        <div class="stat-value" id="tasks-stat">0</div>
+        <div class="stat-note">Total completed tasks</div>
+    </div>
+
+    <div class="card">
+        <div class="stat-label">Mock Tests</div>
+        <div class="stat-value" id="mock-stat">0</div>
+        <div class="stat-note">Tests attempted</div>
+    </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="card">
+    <div class="section-heading">
         <div>
+            <h2>🎯 Exam Countdown</h2>
+            <p>Set your next examination date below.</p>
+        </div>
+        <span class="badge" id="countdown-label">Countdown</span>
+    </div>
 
-          <div class="flex items-center gap-2 flex-wrap">
+    <div class="form-row">
+        <input type="date" id="exam-date">
+        <input type="text" id="exam-name" placeholder="Exam name (e.g. Board Exams)">
+        <button class="primary-btn" onclick="saveExam()">Save Exam</button>
+    </div>
 
-            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">CBSE Class 12 Study Dashboard</h1>
+    <h2 id="countdown" style="font-size:28px;color:var(--primary)">Set your exam date</h2>
+</div>
 
-            <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30">Humanities · 2026–27</span>
-
-          </div>
-
-          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Plan Window: Dec 10, 2026 – Apr 8, 2027 · 10 hrs/day · 8 hrs sleep · Sunday PYP &amp; Wednesday Catch-Up</p>
-
+<!-- DAILY PLANNER -->
+<div class="section">
+    <div class="section-heading">
+        <div>
+            <h2>🗓 Daily Study Planner</h2>
+            <p>Track your daily study sessions.</p>
         </div>
 
-      </div>
+        <div class="day-navigation">
+            <button onclick="changeDay(-1)">←</button>
+            <span id="current-day"></span>
+            <button onclick="changeDay(1)">→</button>
+        </div>
+    </div>
 
-
-      <div class="flex items-center gap-2.5 flex-wrap">
-
-        <button id="btn-reset-demo" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700/70 transition cursor-pointer" title="Reset saved progress">
-
-          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-
-          Reset Progress
-
-        </button>
-
-        <button id="btn-print-plan" type="button" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-sky-500 hover:bg-sky-400 text-slate-950 shadow-lg shadow-sky-500/20 transition cursor-pointer">
-
-          <i data-lucide="printer" class="w-4 h-4"></i>
-
-          Print My Plan (A4)
-
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <!-- TOP ROW: 4 STAT CARDS -->
-
-    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" aria-label="Key Statistics">
-
-      <!-- Card 1: Live Countdown -->
-
-      <div class="glass-card rounded-2xl p-4 sm:p-5 relative overflow-hidden">
-
-        <div class="flex items-start justify-between">
-
-          <div>
-
-            <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Days Left · First Exam</p>
-
-            <div class="mt-2 flex items-baseline gap-2">
-
-              <span id="stat-countdown-days" class="text-3xl font-extrabold text-white tabular-nums">--</span>
-
-              <span class="text-xs font-medium text-sky-400">days</span>
-
-            </div>
-
-            <p id="stat-countdown-sub" class="text-xs text-slate-400 mt-1.5 font-mono tabular-nums">--h : --m : --s to Mar 5, 2027</p>
-
-          </div>
-
-          <div class="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center shrink-0">
-
-            <i data-lucide="timer" class="w-5 h-5 text-sky-400"></i>
-
-          </div>
-
+    <div class="card">
+        <div class="section-heading">
+            <strong>Today's Progress</strong>
+            <span class="badge" id="day-progress-text">0 / 7 completed</span>
         </div>
 
-      </div>
-
-
-      <!-- Card 2: Overall Syllabus Completed -->
-
-      <div class="glass-card rounded-2xl p-4 sm:p-5">
-
-        <div class="flex items-start justify-between">
-
-          <div class="w-full pr-3">
-
-            <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Overall Syllabus Completed</p>
-
-            <div class="mt-2 flex items-baseline gap-2">
-
-              <span id="stat-syllabus-pct" class="text-3xl font-extrabold text-white tabular-nums">0%</span>
-
-              <span id="stat-syllabus-detail" class="text-xs text-slate-400">0 / 0 chapters</span>
-
-            </div>
-
-            <div class="w-full h-2 bg-slate-800 rounded-full mt-2.5 overflow-hidden">
-
-              <div id="stat-syllabus-bar" class="h-full bg-gradient-to-r from-emerald-400 to-sky-400 rounded-full transition-all duration-500" style="width: 0%"></div>
-
-            </div>
-
-          </div>
-
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0">
-
-            <i data-lucide="book-open-check" class="w-5 h-5 text-emerald-400"></i>
-
-          </div>
-
+        <div class="progress-track">
+            <div class="progress-fill" id="day-progress"></div>
         </div>
 
-      </div>
+        <div id="daily-tasks"></div>
 
+        <button class="secondary-btn small-btn" onclick="checkAllTasks()">Mark All Complete</button>
+    </div>
+</div>
 
-      <!-- Card 3: Next Exam -->
+<!-- CHAPTER TRACKER -->
+<div class="section">
+    <div class="section-heading">
+        <div>
+            <h2>📖 Chapter Tracker</h2>
+            <p>Update the status of each chapter.</p>
+        </div>
+    </div>
 
-      <div class="glass-card rounded-2xl p-4 sm:p-5">
+    <div class="card">
+        <div class="subject-tabs" id="subject-tabs"></div>
+        <div id="chapter-list"></div>
 
-        <div class="flex items-start justify-between">
+        <div class="form-row" style="margin-top:15px">
+            <input type="text" id="new-chapter" placeholder="Add a chapter name">
+            <button class="primary-btn" onclick="addChapter()">+ Add Chapter</button>
+        </div>
+    </div>
+</div>
 
-          <div>
+<!-- WEAK TOPICS AND MOCK TESTS -->
+<div class="section two-column">
 
-            <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Next Board Exam</p>
-
-            <div class="mt-2 flex items-center gap-2">
-
-              <span id="stat-next-exam-dot" class="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0"></span>
-
-              <span id="stat-next-exam-subject" class="text-xl sm:text-2xl font-bold text-white truncate">English Core</span>
-
+    <div class="card">
+        <div class="section-heading">
+            <div>
+                <h2>⚠ Weak Topics</h2>
+                <p>Topics that need more revision.</p>
             </div>
-
-            <p id="stat-next-exam-date" class="text-xs text-slate-400 mt-1.5">Fri, Mar 5, 2027 · 10:30 AM IST</p>
-
-          </div>
-
-          <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0">
-
-            <i data-lucide="calendar-clock" class="w-5 h-5 text-amber-400"></i>
-
-          </div>
-
+            <span class="badge" id="weak-count">0 topics</span>
         </div>
 
-      </div>
-
-
-      <!-- Card 4: Study Streak -->
-
-      <div class="glass-card rounded-2xl p-4 sm:p-5">
-
-        <div class="flex items-start justify-between">
-
-          <div>
-
-            <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Current Study Streak</p>
-
-            <div class="mt-2 flex items-baseline gap-2">
-
-              <span id="stat-streak-days" class="text-3xl font-extrabold text-white tabular-nums">0</span>
-
-              <span class="text-xs font-medium text-amber-400">days</span>
-
-            </div>
-
-            <p id="stat-today-blocks" class="text-xs text-slate-400 mt-1.5">0 / 7 blocks checked for selected day</p>
-
-          </div>
-
-          <div class="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0">
-
-            <i data-lucide="flame" class="w-5 h-5 text-rose-400"></i>
-
-          </div>
-
+        <div class="form-row">
+            <input type="text" id="weak-input" placeholder="Enter a weak topic">
+            <button class="primary-btn" onclick="addWeak()">Add</button>
         </div>
 
-      </div>
+        <div id="weak-list"></div>
+    </div>
 
-    </section>
-
-
-    <!-- EXAM TIMELINE STRIP -->
-
-    <section class="glass-card rounded-2xl p-4 sm:p-5" aria-label="Exam Timeline">
-
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3.5">
-
-        <div class="flex items-center gap-2">
-
-          <i data-lucide="milestone" class="w-4 h-4 text-sky-400"></i>
-
-          <h2 class="text-sm font-semibold text-white">2027 Board Exam Timeline &amp; Gap Days</h2>
-
+    <div class="card">
+        <div class="section-heading">
+            <div>
+                <h2>📝 Mock Test Tracker</h2>
+                <p>Record your practice test scores.</p>
+            </div>
         </div>
 
-        <span class="text-xs text-slate-400">Gap days are reserved exclusively for the next exam's subject + 1 full revision day before every paper</span>
+        <div class="form-row">
+            <input id="mock-name" placeholder="Test name">
+            <input id="mock-subject" placeholder="Subject">
+        </div>
 
-      </div>
+        <div class="form-row">
+            <input type="number" id="mock-score" placeholder="Marks obtained" min="0">
+            <input type="number" id="mock-max" placeholder="Maximum marks" min="1">
+        </div>
 
-      <div id="exam-timeline-strip" class="flex items-stretch gap-2 overflow-x-auto custom-scroll pb-2">
+        <button class="primary-btn" onclick="addMock()">Save Test Result</button>
 
-        <!-- Populated by JS -->
+        <div style="margin-top:18px">
+            <strong>Average Score: <span id="mock-average">0%</span></strong>
+        </div>
 
-      </div>
+        <div id="mock-list" style="margin-top:10px"></div>
+    </div>
 
-    </section>
+</div>
 
+<footer>
+    Humanities Study Dashboard · 2026–27<br>
+    Stay consistent. Small progress every day adds up.
+</footer>
 
-    <!-- MAIN SECTION: TODAY'S PLAN + SUBJECT PROGRESS RINGS -->
+</div>
 
-    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<script>
+// -------------------- DATA --------------------
 
+const defaultSubjects = {
+    "English Core": [
+        "Reading Skills",
+        "Writing Skills",
+        "Flamingo",
+        "Vistas"
+    ],
+    "History": [
+        "Bricks, Beads and Bones",
+        "Kings, Farmers and Towns",
+        "Kinship, Caste and Class",
+        "Thinkers, Beliefs and Buildings"
+    ],
+    "Political Science": [
+        "The End of Bipolarity",
+        "Contemporary Centres of Power",
+        "Contemporary South Asia",
+        "International Organisations"
+    ],
+    "Geography": [
+        "Human Geography",
+        "The World Population",
+        "Human Development",
+        "Primary Activities"
+    ],
+    "Economics": [
+        "National Income",
+        "Money and Banking",
+        "Government Budget",
+        "Balance of Payments"
+    ],
+    "Psychology": [
+        "Variations in Psychological Attributes",
+        "Self and Personality",
+        "Meeting Life Challenges",
+        "Psychological Disorders"
+    ]
+};
 
-      <!-- LEFT/MAIN (7 cols): TODAY'S PLAN -->
+const defaultTasks = [
+    ["Morning Revision", "Revise yesterday's topics"],
+    ["English", "Reading or writing practice"],
+    ["History", "Read and revise a chapter"],
+    ["Political Science", "Study important concepts"],
+    ["Geography", "Maps, diagrams or theory"],
+    ["Optional Subject", "Economics / Psychology"],
+    ["Night Revision", "Quick revision of the day"]
+];
 
-      <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-6 flex flex-col">
+let data = loadData();
+let selectedSubject = Object.keys(data.chapters)[0];
+let currentDate = localDate(new Date());
 
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-800/80">
+// -------------------- STORAGE --------------------
 
-          <div>
+function loadData() {
+    try {
+        const saved = localStorage.getItem("humanitiesDashboard2026");
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            return {
+                chapters: parsed.chapters || structuredClone(defaultSubjects),
+                tasks: parsed.tasks || {},
+                weak: parsed.weak || [],
+                mocks: parsed.mocks || [],
+                examDate: parsed.examDate || "",
+                examName: parsed.examName || ""
+            };
+        }
+    } catch (e) {
+        console.warn("Could not load saved dashboard data", e);
+    }
 
-            <div class="flex items-center gap-2 flex-wrap">
+    return {
+        chapters: structuredClone(defaultSubjects),
+        tasks: {},
+        weak: [],
+        mocks: [],
+        examDate: "",
+        examName: ""
+    };
+}
 
-              <h2 class="text-lg font-bold text-white">Today's Plan</h2>
+function saveData() {
+    localStorage.setItem("humanitiesDashboard2026", JSON.stringify(data));
+    renderAll();
+}
 
-              <span id="plan-phase-badge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/30">Phase 1: Learn</span>
+function localDate(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+}
 
-              <span id="plan-day-type-badge" class="hidden text-[11px] font-semibold px-2.5 py-0.5 rounded-full"></span>
+// -------------------- DAILY PLANNER --------------------
 
+function getTasks() {
+    if (!data.tasks[currentDate]) {
+        data.tasks[currentDate] = defaultTasks.map((task, i) => ({
+            id: i,
+            title: task[0],
+            description: task[1],
+            done: false
+        }));
+    }
+    return data.tasks[currentDate];
+}
+
+function changeDay(amount) {
+    const date = new Date(currentDate + "T12:00:00");
+    date.setDate(date.getDate() + amount);
+    currentDate = localDate(date);
+    renderPlanner();
+}
+
+function toggleTask(index, checked) {
+    getTasks()[index].done = checked;
+    saveData();
+}
+
+function checkAllTasks() {
+    getTasks().forEach(task => task.done = true);
+    saveData();
+}
+
+function renderPlanner() {
+    const tasks = getTasks();
+    const completed = tasks.filter(task => task.done).length;
+
+    document.getElementById("current-day").textContent =
+        new Date(currentDate + "T12:00:00").toLocaleDateString(
+            "en-IN",
+            { weekday: "short", day: "numeric", month: "short", year: "numeric" }
+        );
+
+    document.getElementById("day-progress-text").textContent =
+        `${completed} / ${tasks.length} completed`;
+
+    document.getElementById("day-progress").style.width =
+        (tasks.length ? completed / tasks.length * 100 : 0) + "%";
+
+    document.getElementById("daily-tasks").innerHTML = tasks.map((task, index) => `
+        <div class="task ${task.done ? "completed" : ""}">
+            <input type="checkbox" ${task.done ? "checked" : ""}
+                onchange="toggleTask(${index}, this.checked)">
+            <div class="task-info">
+                <strong>${escapeHTML(task.title)}</strong>
+                <p>${escapeHTML(task.description)}</p>
             </div>
+            <span class="badge">${task.done ? "Done" : "Pending"}</span>
+        </div>
+    `).join("");
+}
 
-            <p id="plan-date-label" class="text-xs text-slate-400 mt-1">Thursday, December 10, 2026</p>
+// -------------------- CHAPTER TRACKER --------------------
 
-          </div>
-
-
-          <div class="flex items-center gap-1.5 flex-wrap">
-
-            <button id="btn-prev-day" type="button" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/70 transition cursor-pointer" title="Previous Day">
-
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
-
+function renderTabs() {
+    document.getElementById("subject-tabs").innerHTML =
+        Object.keys(data.chapters).map(subject => `
+            <button class="${subject === selectedSubject ? "active" : ""}"
+                onclick="selectSubject('${escapeHTML(subject)}')">
+                ${escapeHTML(subject)}
             </button>
-
-            <input id="plan-date-picker" type="date" min="2026-12-10" max="2027-04-08" class="px-2.5 py-1.5 rounded-xl text-xs font-medium bg-slate-900 text-slate-200 border border-slate-700/80 focus:outline-none focus:border-sky-500" />
-
-            <button id="btn-next-day" type="button" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/70 transition cursor-pointer" title="Next Day">
-
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-
-            </button>
-
-            <button id="btn-mark-day-done" type="button" class="ml-1 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition cursor-pointer">
-
-              Check All
-
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- Quick Jump Pills -->
-
-        <div class="flex items-center gap-2 flex-wrap py-3 border-b border-slate-800/50 text-xs">
-
-          <span class="text-slate-500 font-medium">Jump to:</span>
-
-          <button type="button" data-jump="2026-12-10" class="jump-pill px-2.5 py-1 rounded-lg bg-slate-800/70 hover:bg-slate-700 text-slate-300 transition cursor-pointer">Dec 10 Start</button>
-
-          <button type="button" data-jump="2027-01-26" class="jump-pill px-2.5 py-1 rounded-lg bg-slate-800/70 hover:bg-slate-700 text-slate-300 transition cursor-pointer">Phase 2: Revise</button>
-
-          <button type="button" data-jump="2027-02-19" class="jump-pill px-2.5 py-1 rounded-lg bg-slate-800/70 hover:bg-slate-700 text-slate-300 transition cursor-pointer">Phase 3: Mocks</button>
-
-          <button type="button" data-jump="2027-03-04" class="jump-pill px-2.5 py-1 rounded-lg bg-slate-800/70 hover:bg-slate-700 text-slate-300 transition cursor-pointer">Pre-Exam Rev (Mar 4)</button>
-
-          <button type="button" data-jump="2027-03-06" class="jump-pill px-2.5 py-1 rounded-lg bg-slate-800/70 hover:bg-slate-700 text-slate-300 transition cursor-pointer">Eco Gap (Mar 6)</button>
-
-        </div>
-
-
-        <!-- Time Slots List -->
-
-        <div id="todays-plan-list" class="mt-4 space-y-2.5 flex-1">
-
-          <!-- Populated by JS -->
-
-        </div>
-
-
-        <!-- Sleep & Wellness Footer -->
-
-        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-
-          <div class="flex items-center gap-2">
-
-            <i data-lucide="moon" class="w-4 h-4 text-indigo-400"></i>
-
-            <span>Sleep Window: <strong class="text-slate-200">10:30 PM – 6:30 AM (8.0 hrs)</strong></span>
-
-          </div>
-
-          <span id="plan-study-hours-label" class="font-semibold text-sky-400">10.0 hrs study scheduled</span>
-
-        </div>
-
-      </div>
-
-
-      <!-- RIGHT (5 cols): SUBJECT PROGRESS RINGS -->
-
-      <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-6 flex flex-col">
-
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800/80">
-
-          <div>
-
-            <h2 class="text-lg font-bold text-white">Subject Progress</h2>
-
-            <p class="text-xs text-slate-400 mt-0.5">Click any subject ring to filter the Chapter Tracker</p>
-
-          </div>
-
-          <span class="text-xs font-medium text-slate-400">6 Subjects</span>
-
-        </div>
-
-
-        <div id="subject-rings-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3.5 mt-4 flex-1">
-
-          <!-- Populated by JS -->
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- SIDE / BOTTOM SECTION: CHAPTER TRACKER + WEAK TOPICS + MOCK TEST TRACKER -->
-
-    <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-
-
-      <!-- CHAPTER TRACKER (7 cols) -->
-
-      <div class="xl:col-span-7 glass-card rounded-2xl p-4 sm:p-6 flex flex-col">
-
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-800/80">
-
-          <div>
-
-            <h2 class="text-lg font-bold text-white">Chapter Tracker</h2>
-
-            <p class="text-xs text-slate-400 mt-0.5">Click status to cycle: Not Started → Learning → Revised · Flag difficult chapters</p>
-
-          </div>
-
-          <div class="flex items-center gap-2">
-
-            <select id="filter-status" class="px-2.5 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 border border-slate-700/80 focus:outline-none focus:border-sky-500">
-
-              <option value="all">All Statuses</option>
-
-              <option value="not_started">Not Started</option>
-
-              <option value="learning">Learning</option>
-
-              <option value="revised">Revised</option>
-
-            </select>
-
-            <input id="search-chapters" type="text" placeholder="Search chapter..." class="w-36 sm:w-44 px-3 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 placeholder-slate-500 border border-slate-700/80 focus:outline-none focus:border-sky-500" />
-
-          </div>
-
-        </div>
-
-
-        <!-- Subject Filter Tabs -->
-
-        <div id="chapter-subject-tabs" class="flex items-center gap-1.5 overflow-x-auto custom-scroll py-3 border-b border-slate-800/50">
-
-          <!-- Populated by JS -->
-
-        </div>
-
-
-        <!-- Chapter List -->
-
-        <div id="chapter-tracker-list" class="mt-3 space-y-2 max-h-[440px] overflow-y-auto custom-scroll pr-1">
-
-          <!-- Populated by JS -->
-
-        </div>
-
-      </div>
-
-
-      <!-- WEAK TOPICS + MOCK TEST TRACKER (5 cols) -->
-
-      <div class="xl:col-span-5 flex flex-col gap-6">
-
-
-        <!-- WEAK TOPICS LIST -->
-
-        <div class="glass-card rounded-2xl p-4 sm:p-5">
-
-          <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
-
-            <div class="flex items-center gap-2">
-
-              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
-
-              <h2 class="text-base font-bold text-white">Weak Topics</h2>
-
+        `).join("");
+}
+
+function selectSubject(subject) {
+    selectedSubject = subject;
+    renderChapters();
+}
+
+function renderChapters() {
+    renderTabs();
+
+    const chapters = data.chapters[selectedSubject] || [];
+
+    document.getElementById("chapter-list").innerHTML = chapters.length
+        ? chapters.map((chapter, index) => `
+            <div class="chapter-item">
+                <span>${escapeHTML(chapter.name)}</span>
+                <select onchange="updateChapter(${index}, this.value)">
+                    <option value="Not Started" ${chapter.status === "Not Started" ? "selected" : ""}>Not Started</option>
+                    <option value="In Progress" ${chapter.status === "In Progress" ? "selected" : ""}>In Progress</option>
+                    <option value="Completed" ${chapter.status === "Completed" ? "selected" : ""}>Completed</option>
+                </select>
+                <button class="danger-btn small-btn"
+                    onclick="deleteChapter(${index})">✕</button>
             </div>
+        `).join("")
+        : '<div class="empty">No chapters added yet.</div>';
+}
 
-            <span id="weak-topics-count" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">0 flagged</span>
+function updateChapter(index, status) {
+    data.chapters[selectedSubject][index].status = status;
+    saveData();
+}
 
-          </div>
+function addChapter() {
+    const input = document.getElementById("new-chapter");
+    const name = input.value.trim();
 
-          <div id="weak-topics-list" class="mt-3 space-y-2 max-h-48 overflow-y-auto custom-scroll pr-1">
+    if (!name) {
+        alert("Enter a chapter name.");
+        return;
+    }
 
-            <!-- Populated by JS -->
+    data.chapters[selectedSubject].push({
+        name,
+        status: "Not Started"
+    });
 
-          </div>
+    input.value = "";
+    saveData();
+}
 
-        </div>
+function deleteChapter(index) {
+    if (confirm("Delete this chapter?")) {
+        data.chapters[selectedSubject].splice(index, 1);
+        saveData();
+    }
+}
 
+// -------------------- WEAK TOPICS --------------------
 
-        <!-- MOCK TEST TRACKER -->
+function addWeak() {
+    const input = document.getElementById("weak-input");
+    const topic = input.value.trim();
 
-        <div class="glass-card rounded-2xl p-4 sm:p-5 flex-1 flex flex-col">
+    if (!topic) {
+        alert("Enter a topic first.");
+        return;
+    }
 
-          <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+    data.weak.push({
+        id: Date.now(),
+        name: topic
+    });
 
-            <div class="flex items-center gap-2">
+    input.value = "";
+    saveData();
+}
 
-              <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
+function removeWeak(id) {
+    data.weak = data.weak.filter(item => item.id !== id);
+    saveData();
+}
 
-              <h2 class="text-base font-bold text-white">Mock Test &amp; PYP Tracker</h2>
+function renderWeak() {
+    document.getElementById("weak-count").textContent =
+        `${data.weak.length} topics`;
 
-            </div>
+    document.getElementById("weak-list").innerHTML =
+        data.weak.length
+            ? data.weak.map(item => `
+                <div class="weak-item">
+                    <span>${escapeHTML(item.name)}</span>
+                    <button class="danger-btn small-btn"
+                        onclick="removeWeak(${item.id})">Remove</button>
+                </div>
+            `).join("")
+            : '<div class="empty">No weak topics added.</div>';
+}
 
-            <span id="mock-avg-badge" class="text-xs font-semibold text-emerald-400">Avg: --%</span>
+// -------------------- MOCK TESTS --------------------
 
-          </div>
+function addMock() {
+    const name = document.getElementById("mock-name").value.trim();
+    const subject = document.getElementById("mock-subject").value.trim();
+    const score = Number(document.getElementById("mock-score").value);
+    const max = Number(document.getElementById("mock-max").value);
 
+    if (!name || !subject || !document.getElementById("mock-score").value ||
+        !document.getElementById("mock-max").value) {
+        alert("Please fill in all test details.");
+        return;
+    }
 
-          <!-- Add Score Form -->
+    if (!Number.isFinite(score) || !Number.isFinite(max) ||
+        max <= 0 || score < 0 || score > max) {
+        alert("Enter valid marks. Score cannot exceed maximum marks.");
+        return;
+    }
 
-          <form id="mock-test-form" class="mt-3 grid grid-cols-12 gap-2">
+    data.mocks.push({
+        id: Date.now(),
+        name,
+        subject,
+        score,
+        max
+    });
 
-            <select id="mock-subject" required class="col-span-5 px-2.5 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 border border-slate-700/80 focus:outline-none focus:border-sky-500">
+    document.getElementById("mock-name").value = "";
+    document.getElementById("mock-subject").value = "";
+    document.getElementById("mock-score").value = "";
+    document.getElementById("mock-max").value = "";
 
-              <!-- Populated by JS -->
+    saveData();
+}
 
-            </select>
+function deleteMock(id) {
+    data.mocks = data.mocks.filter(mock => mock.id !== id);
+    saveData();
+}
 
-            <input id="mock-name" type="text" required placeholder="Paper (e.g. PYP 2025)" class="col-span-7 px-2.5 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 placeholder-slate-500 border border-slate-700/80 focus:outline-none focus:border-sky-500" />
+function renderMocks() {
+    const total = data.mocks.reduce(
+        (sum, mock) => sum + mock.score / mock.max * 100, 0
+    );
 
-            <input id="mock-score" type="number" min="0" max="100" step="0.5" required placeholder="Score" class="col-span-3 px-2.5 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 placeholder-slate-500 border border-slate-700/80 focus:outline-none focus:border-sky-500" />
+    const average = data.mocks.length
+        ? total / data.mocks.length
+        : 0;
 
-            <input id="mock-max" type="number" min="10" max="100" value="80" required placeholder="Max" class="col-span-3 px-2.5 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 placeholder-slate-500 border border-slate-700/80 focus:outline-none focus:border-sky-500" />
+    document.getElementById("mock-average").textContent =
+        average.toFixed(1) + "%";
 
-            <input id="mock-date" type="date" required class="col-span-4 px-2 py-1.5 rounded-xl text-xs bg-slate-900 text-slate-200 border border-slate-700/80 focus:outline-none focus:border-sky-500" />
+    document.getElementById("mock-stat").textContent =
+        data.mocks.length;
 
-            <button type="submit" class="col-span-2 px-2 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition cursor-pointer">Add</button>
+    document.getElementById("mock-list").innerHTML =
+        data.mocks.length
+            ? data.mocks.map(mock => `
+                <div class="mock-item">
+                    <span>
+                        <strong>${escapeHTML(mock.name)}</strong><br>
+                        <small>${escapeHTML(mock.subject)}</small>
+                    </span>
+                    <span class="badge">${mock.score}/${mock.max}</span>
+                    <button class="danger-btn small-btn"
+                        onclick="deleteMock(${mock.id})">✕</button>
+                </div>
+            `).join("")
+            : '<div class="empty">No mock tests recorded.</div>';
+}
 
-          </form>
+// -------------------- EXAM COUNTDOWN --------------------
 
+function saveExam() {
+    data.examDate = document.getElementById("exam-date").value;
+    data.examName = document.getElementById("exam-name").value.trim();
 
-          <!-- Line Chart -->
+    if (!data.examDate) {
+        alert("Please select an exam date.");
+        return;
+    }
 
-          <div class="relative h-52 mt-4">
+    saveData();
+    renderCountdown();
+}
 
-            <canvas id="mock-chart"></canvas>
+function renderCountdown() {
+    document.getElementById("exam-date").value = data.examDate;
+    document.getElementById("exam-name").value = data.examName;
 
-          </div>
+    const output = document.getElementById("countdown");
 
+    if (!data.examDate) {
+        output.textContent = "Set your exam date";
+        document.getElementById("countdown-label").textContent = "Countdown";
+        return;
+    }
 
-          <!-- Recent Scores -->
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-          <div id="mock-scores-list" class="mt-3 space-y-1.5 max-h-32 overflow-y-auto custom-scroll pr-1">
+    const exam = new Date(data.examDate + "T00:00:00");
+    const difference = Math.ceil((exam - today) / 86400000);
 
-            <!-- Populated by JS -->
+    document.getElementById("countdown-label").textContent =
+        data.examName || "Exam";
 
-          </div>
+    if (difference > 0) {
+        output.textContent = `${difference} days to go!`;
+    } else if (difference === 0) {
+        output.textContent = "Your exam is today!";
+    } else {
+        output.textContent = "Exam date has passed.";
+    }
+}
 
-        </div>
+// -------------------- DASHBOARD STATS --------------------
 
+function renderStats() {
+    let total = 0;
+    let completed = 0;
 
-      </div>
+    Object.values(data.chapters).forEach(chapters => {
+        chapters.forEach(chapter => {
+            total++;
+            if (chapter.status === "Completed") completed++;
+        });
+    });
 
-    </section>
+    const percentage = total
+        ? Math.round(completed / total * 100)
+        : 0;
 
-  </div>
+    const tasksCompleted = Object.values(data.tasks)
+        .flat()
+        .filter(task => task.done).length;
 
+    document.getElementById("completed-stat").textContent =
+        `${completed}/${total}`;
 
-  <!-- CLEAN A4 PRINTABLE TIMETABLE (VISIBLE ONLY ON PRINT) -->
+    document.getElementById("progress-stat").textContent =
+        percentage + "%";
 
-  <div id="print-a4-container" class="print-only”
+    document.getElementById("overall-progress").style.width =
+        percentage + "%";
+
+    document.getElementById("tasks-stat").textContent =
+        tasksCompleted;
+}
+
+// -------------------- SECURITY / DISPLAY --------------------
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+// -------------------- RESET --------------------
+
+function resetDashboard() {
+    if (!confirm("Are you sure? This will delete all saved dashboard data.")) {
+        return;
+    }
+
+    localStorage.removeItem("humanitiesDashboard2026");
+    data = {
+        chapters: structuredClone(defaultSubjects),
+        tasks: {},
+        weak: [],
+        mocks: [],
+        examDate: "",
+        examName: ""
+    };
+
+    selectedSubject = Object.keys(data.chapters)[0];
+    currentDate = localDate(new Date());
+    renderAll();
+}
+
+// -------------------- RENDER EVERYTHING --------------------
+
+function renderAll() {
+    renderStats();
+    renderPlanner();
+    renderChapters();
+    renderWeak();
+    renderMocks();
+    renderCountdown();
+}
+
+renderAll();
+</script>
+
+</body>
+</html>
